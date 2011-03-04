@@ -15,6 +15,7 @@
  */
 package com.erraticduck.circles;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import android.app.Activity;
@@ -179,11 +180,31 @@ public class Main extends Activity {
 		}
 	}
 
+	private ArrayList<Coordinate> coords = new ArrayList<Coordinate>();
+	
 	private void createCircleParams() {
-    	int newX = gen.nextInt(width);
-    	int newY = gen.nextInt(height);
-    	x = newX;
-        y = newY;
-        r = gen.nextInt(20) + 15;
+		int tries=0;
+		do {
+			x = gen.nextInt(width);
+			y = gen.nextInt(height);
+			if (tries++ > 50) break; //After 50 tries just give up...
+		} while (isThisCoordinateTooCloseToAnExistingOne(x, y));
+		coords.add(new Coordinate(x,y));
+        r = gen.nextInt(20) + 25;
     }
+	
+	private boolean isThisCoordinateTooCloseToAnExistingOne(int x, int y) {
+		for (Coordinate c : coords) {
+			if (Math.sqrt( (x-c.x)*(x-c.x) + (y-c.y)*(y-c.y) ) < 30) return true;
+		}
+		return false;
+	}
+	
+	private class Coordinate {
+		int x,y;
+		public Coordinate(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
 }

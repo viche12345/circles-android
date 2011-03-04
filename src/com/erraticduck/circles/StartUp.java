@@ -63,7 +63,7 @@ public class StartUp extends Activity {
 			public boolean onTouch(View arg0, MotionEvent event) {
 				int x = (int)event.getX();
 				int y = (int)event.getY();
-				int r = gen.nextInt(35) + 15;
+				int r = gen.nextInt(20) + 15;
 				((FrameLayout)arg0).addView(new Circle(StartUp.this, x, y, r));
 				
 				return false;
